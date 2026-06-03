@@ -3,7 +3,7 @@
 
 ## Overview
 
-This repository provides the code for paper "**TreeMortSeg: A Multi-Task Learning Network for Individual Tree Mortality Segmentation from High-Resolution Aerial Imagery**".
+This repository provides the code for paper "**Individual tree mortality segmentation using a multi-task deep learning network and high-resolution aerial imagery**".
 
 We propose TreeMortSeg, a multi-task learning framework for tree mortality segmentation. The framework incorporates structure-aware and edge-aware auxiliary tasks, each equipped with dedicated decoders to extract morphological and boundary features. These features are further integrated as spatial priors to guide the primary segmentation task, thereby improving segmentation performance for dead trees.
 
