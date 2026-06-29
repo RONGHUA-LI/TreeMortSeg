@@ -1,0 +1,77 @@
+# Experiment-wide settings
+experiment:
+  id: "001"                              # Unique experiment identifier
+  seed: 2025
+  # Random seed for reproducibility
+  gpu_id: 0                            # GPU device to use (e.g. CUDA_VISIBLE_DEVICES)
+  num_workers: 2                      # Number of workers for data loading
+
+# Dataset and split configuration
+data:
+#  root_dir: "path/to/treefinder/"        # Base folder containing your .tif files
+  root_dir: "D:/Users/lrh/Data/树木死亡数据集/treefinder/"        # Base folder containing your .tif files
+  dataset_dir: "tiles224_v3/"
+  dataset_info: "tile_info224_v3_aux.csv"
+  no_data_value: 255
+  normalize: true
+  augmentation:
+    random_flip: true
+    rotation:
+      type: "90"
+  split:
+    method: "random"                 # Options: random, by_state, east_west
+    pos_threshold: 0            # Threshold for positive class
+    pos_frac: 0.           # Fraction of positive samples in the dataset
+    random:
+      train_ratio: 0.8
+      train_val_ratio: 0.1            # Ratio of train to val in the training set
+      test_ratio: 0.2
+      shuffle_by_tile: true  # Shuffle files before splitting
+
+# Model configuration
+model:
+  name: "treemortseg"
+  in_channels: 4
+  num_classes: 1
+  convnext_pretrained: true
+
+# Training hyperparameters
+training:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 1e-4
+  optimizer:
+    type: "AdamW"
+    weight_decay: 0.01
+  criterion:
+    type: "BCEWithLogitsLoss"         # options: BCEWithLogitsLoss, FocalLoss
+    w_pos: 0                   # Weight for positive class in loss function
+    alpha: 0.25               # Focal loss alpha parameter
+    gamma: 2                 # Focal loss gamma parameter
+  w_dice: 1.0
+  scheduler:
+    type: "ExponentialLR"           # options: StepLR, ExponentialLR, CosineAnnealingWarmRestarts
+  early_stopping:
+    enabled: true                   # Enable early stopping
+    monitor: "val_loss"              # Metric to monitor for early stopping
+    mode: "min"                      # Mode for monitoring (min or max)
+    patience: 10                     # Number of epochs with no improvement after which training will be stopped
+
+# Evaluation settings
+evaluation:
+  metrics:
+    - iou
+    - precision
+    - recall
+    - f1
+    - accuracy
+
+# Output directories
+output:
+  results_dir: "results/"               # Where to write final metrics (e.g. JSON, CSV)
+  checkpoint_dir: "checkpoints/"        # Where to save model weights
+
+# Logging configuration
+logging:
+  log_dir: "logs/"                     # Directory for logging
+  log_interval: 100                     # Log training status every N batches

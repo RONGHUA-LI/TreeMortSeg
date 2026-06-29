@@ -1,0 +1,10 @@
+matplotlib==3.11.0
+numpy==2.5.0
+pandas==3.0.4
+PyYAML==6.0.3
+rasterio==1.4.3
+scipy==1.18.0
+torch==2.11.0+cu130
+torchvision==0.26.0+cu130
+tqdm==4.67.1
+ultralytics_thop==2.0.18
